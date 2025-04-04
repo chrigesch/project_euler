@@ -28,3 +28,64 @@ def problem_0003(number: int) -> int:
         else:
             divisor += 1 if divisor == 2 else 2
     return divisors[-1]
+
+
+def problem_0004() -> int:
+    largest_palindrome = 11
+    for first in range(999, 100, -1):
+        for second in range(999, 100, -1):
+            product = first * second
+            if is_palindrome(product) & (product > largest_palindrome):
+                largest_palindrome = product
+    return largest_palindrome
+
+
+def problem_0009():
+    for a in range(1, 998):
+        for b in range(a + 1, 998):
+            for c in range(b + 1, 998):
+                if (a**2 + b**2 == c**2) & (a + b + c == 1000):
+                    return [a, b, c]
+
+
+def problem_0027() -> list:
+    highest_n = -1
+    for a in range(-1000, 1001):
+        for b in range(-1000, 1001):
+            for n in range(100):
+                result = n * n + a * n + b
+                if is_prime(result) is False:
+                    break
+                if n > highest_n:
+                    highest_n = n
+                    results = [a, b, n, a * b]
+    return results
+
+
+####################
+# Helper functions #
+####################
+def is_palindrome(value: int) -> bool:
+    value_str = str(value)
+    length = len(value_str)
+    if length % 2 != 0:
+        return False
+    for i in range(1, int(length / 2) + 1):
+        if value_str[i - 1] != value_str[-i]:
+            return False
+    return True
+
+
+def is_prime(n) -> bool:
+    if n <= 1:
+        return False
+    if n <= 3:
+        return True
+    if n % 2 == 0 or n % 3 == 0:
+        return False
+    i = 5
+    while i * i <= n:
+        if n % i == 0 or n % (i + 2) == 0:
+            return False
+        i += 6
+    return True
