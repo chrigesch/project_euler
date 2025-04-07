@@ -1,3 +1,5 @@
+import pandas as pd
+
 # https://projecteuler.net/archives
 
 
@@ -60,12 +62,117 @@ def problem_0005(n: int) -> int:
     return cum_prod
 
 
+def problem_0006(n: int) -> int:
+    sum_of_sq = 0
+    for i in range(1, n + 1):
+        sum_of_sq += i**2
+    sq_of_sum = ((n**2 + n) / 2) ** 2
+
+    return int(sq_of_sum - sum_of_sq)
+
+
+def problem_0008(n: int) -> int:
+    digits = (
+        "73167176531330624919225119674426574742355349194934"
+        "96983520312774506326239578318016984801869478851843"
+        "85861560789112949495459501737958331952853208805511"
+        "12540698747158523863050715693290963295227443043557"
+        "66896648950445244523161731856403098711121722383113"
+        "62229893423380308135336276614282806444486645238749"
+        "30358907296290491560440772390713810515859307960866"
+        "70172427121883998797908792274921901699720888093776"
+        "65727333001053367881220235421809751254540594752243"
+        "52584907711670556013604839586446706324415722155397"
+        "53697817977846174064955149290862569321978468622482"
+        "83972241375657056057490261407972968652414535100474"
+        "82166370484403199890008895243450658541227588666881"
+        "16427171479924442928230863465674813919123162824586"
+        "17866458359124566529476545682848912883142607690042"
+        "24219022671055626321111109370544217506941658960408"
+        "07198403850962455444362981230987879927244284909188"
+        "84580156166097919133875499200524063689912560717606"
+        "05886116467109405077541002256983155200055935729725"
+        "71636269561882670428252483600823257530420752963450"
+    )
+
+    greatest_product = 0
+    for i in range(n - 1, len(digits)):
+        temp_digits_str = digits[i - n : i]  # noqa E203
+        temp_product = 1
+        for d in temp_digits_str:
+            temp_product *= int(d)
+        if temp_product > greatest_product:
+            greatest_product = temp_product
+    return greatest_product
+
+
 def problem_0009():
     for a in range(1, 998):
         for b in range(a + 1, 998):
             for c in range(b + 1, 998):
                 if (a**2 + b**2 == c**2) & (a + b + c == 1000):
                     return [a, b, c]
+
+
+def problem_0010(n: int) -> int:
+    primes = generate_primes(n)
+    cumsum = 0
+    for p in primes:
+        cumsum += p
+    return cumsum
+
+
+def problem_0011(matrix: pd.DataFrame, n: int) -> int:
+
+    largest_cumprod = 0
+
+    # right & left
+    for row in range(len(matrix)):
+        for col in range(n, len(matrix.columns) + 1):
+            temp_data = matrix.iloc[row, col - n : col]  # noqa E203
+            temp_cumprod = temp_data.cumprod().iloc[-1]
+            if temp_cumprod > largest_cumprod:
+                largest_cumprod = temp_cumprod
+
+    # up & down
+    for col in range(len(matrix)):
+        for row in range(n, len(matrix.columns) + 1):
+            temp_data = matrix.iloc[row - n : row, col]  # noqa E203
+            temp_cumprod = temp_data.cumprod().iloc[-1]
+            if temp_cumprod > largest_cumprod:
+                largest_cumprod = temp_cumprod
+
+    # diag ul_dr
+    for r in range(len(matrix) - n + 1):
+        for c in range(len(matrix) - n + 1):
+            temp_data = pd.Series(
+                [
+                    matrix.iloc[r, c],
+                    matrix.iloc[r + 1, c + 1],
+                    matrix.iloc[r + 2, c + 2],
+                    matrix.iloc[r + 3, c + 3],
+                ]
+            )
+            temp_cumprod = temp_data.cumprod().iloc[-1]
+            if temp_cumprod > largest_cumprod:
+                largest_cumprod = temp_cumprod
+
+    # diag ur_dl
+    for r in range(len(matrix) - n + 1):
+        for c in range(n - 1, len(matrix)):
+            temp_data = pd.Series(
+                [
+                    matrix.iloc[r, c],
+                    matrix.iloc[r + 1, c - 1],
+                    matrix.iloc[r + 2, c - 2],
+                    matrix.iloc[r + 3, c - 3],
+                ]
+            )
+            temp_cumprod = temp_data.cumprod().iloc[-1]
+            if temp_cumprod > largest_cumprod:
+                largest_cumprod = temp_cumprod
+
+    return largest_cumprod
 
 
 def problem_0027() -> list:
