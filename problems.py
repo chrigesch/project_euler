@@ -18,7 +18,7 @@ def problem_0002(below: int) -> int:
     return sum(results_even)
 
 
-def problem_0003(number: int) -> int:
+def problem_0003(number: int) -> list:
     divisor = 2
     divisors = []
     while divisor <= number:
@@ -27,7 +27,7 @@ def problem_0003(number: int) -> int:
             divisors.append(divisor)
         else:
             divisor += 1 if divisor == 2 else 2
-    return divisors[-1]
+    return divisors
 
 
 def problem_0004() -> int:
@@ -38,6 +38,26 @@ def problem_0004() -> int:
             if is_palindrome(product) & (product > largest_palindrome):
                 largest_palindrome = product
     return largest_palindrome
+
+
+def problem_0005(n: int) -> int:
+    primes = generate_primes(n)
+
+    cum_prod = 1
+    for prime in primes:
+        max_factors = 1
+        if 2 * prime < n:
+            for i in range(prime * 2, n + 1):
+                i_temp = i
+                counter = 0
+                while i_temp % prime == 0:
+                    i_temp /= prime
+                    counter += 1
+                if counter > max_factors:
+                    max_factors = counter
+        cum_prod *= prime**max_factors
+
+    return cum_prod
 
 
 def problem_0009():
@@ -84,6 +104,16 @@ def problem_0081(grid):
 ####################
 # Helper functions #
 ####################
+def generate_primes(n: int) -> list:
+    sieve = [True] * (n + 1)
+    sieve[0:2] = [False, False]
+    for i in range(2, int(n**0.5) + 1):
+        if sieve[i]:
+            for j in range(i * i, n + 1, i):
+                sieve[j] = False
+    return [p for p, isprime in enumerate(sieve) if isprime]
+
+
 def is_palindrome(value: int) -> bool:
     value_str = str(value)
     length = len(value_str)
