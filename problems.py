@@ -124,55 +124,42 @@ def problem_0010(n: int) -> int:
 
 def problem_0011(matrix: pd.DataFrame, n: int) -> int:
 
-    largest_cumprod = 0
+    largest_prod = 0
 
-    # right & left
-    for row in range(len(matrix)):
-        for col in range(n, len(matrix.columns) + 1):
-            temp_data = matrix.iloc[row, col - n : col]  # noqa E203
-            temp_cumprod = temp_data.cumprod().iloc[-1]
-            if temp_cumprod > largest_cumprod:
-                largest_cumprod = temp_cumprod
+    for r in range(len(matrix)):
+        for c in range(len(matrix)):
+            # right & left
+            if c < len(matrix) - n:
+                largest_prod_l_r = matrix.iloc[r, c : c + n].prod()  # noqa E203
+            # up & down
+            if r < len(matrix) - n:
+                largest_prod_u_d = matrix.iloc[r : r + n, c].prod()  # noqa E203
+            # diag ul_dr & diag ur_dl
+            if (c < len(matrix) - n) & (r < len(matrix) - n):
+                largest_prod_ul_dr = (
+                    matrix.iloc[r, c]
+                    * matrix.iloc[r + 1, c + 1]  # type: ignore
+                    * matrix.iloc[r + 2, c + 2]
+                    * matrix.iloc[r + 3, c + 3]
+                )
+                largest_prod_ur_dl = (
+                    matrix.iloc[r, c + n - 1]
+                    * matrix.iloc[r + 1, c + n - 2]  # type: ignore
+                    * matrix.iloc[r + 2, c + n - 3]
+                    * matrix.iloc[r + 3, c + n - 4]
+                )
 
-    # up & down
-    for col in range(len(matrix)):
-        for row in range(n, len(matrix.columns) + 1):
-            temp_data = matrix.iloc[row - n : row, col]  # noqa E203
-            temp_cumprod = temp_data.cumprod().iloc[-1]
-            if temp_cumprod > largest_cumprod:
-                largest_cumprod = temp_cumprod
-
-    # diag ul_dr
-    for r in range(len(matrix) - n + 1):
-        for c in range(len(matrix) - n + 1):
-            temp_data = pd.Series(
-                [
-                    matrix.iloc[r, c],
-                    matrix.iloc[r + 1, c + 1],
-                    matrix.iloc[r + 2, c + 2],
-                    matrix.iloc[r + 3, c + 3],
-                ]
+            temp_max = max(
+                largest_prod_l_r,  # type: ignore
+                largest_prod_u_d,  # type: ignore
+                largest_prod_ul_dr,  # type: ignore
+                largest_prod_ur_dl,  # type: ignore
             )
-            temp_cumprod = temp_data.cumprod().iloc[-1]
-            if temp_cumprod > largest_cumprod:
-                largest_cumprod = temp_cumprod
 
-    # diag ur_dl
-    for r in range(len(matrix) - n + 1):
-        for c in range(n - 1, len(matrix)):
-            temp_data = pd.Series(
-                [
-                    matrix.iloc[r, c],
-                    matrix.iloc[r + 1, c - 1],
-                    matrix.iloc[r + 2, c - 2],
-                    matrix.iloc[r + 3, c - 3],
-                ]
-            )
-            temp_cumprod = temp_data.cumprod().iloc[-1]
-            if temp_cumprod > largest_cumprod:
-                largest_cumprod = temp_cumprod
+            if temp_max > largest_prod:
+                largest_prod = temp_max
 
-    return largest_cumprod
+    return largest_prod
 
 
 def problem_0027() -> list:
