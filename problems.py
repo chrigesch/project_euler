@@ -162,6 +162,28 @@ def problem_0011(matrix: pd.DataFrame, n: int) -> int:
     return largest_prod
 
 
+def problem_0012(n: int) -> int:
+    max_factors = 0
+    seq = 1
+    tn = 1
+    while max_factors <= n:
+        counter = 0
+
+        seq += 1
+        tn += seq
+
+        factor = 1
+        temp = tn
+        while factor < temp:
+            if tn % factor == 0:
+                counter += 2
+                temp = tn / factor
+            factor += 1
+        if counter > max_factors:
+            max_factors = counter
+    return tn
+
+
 def problem_0027() -> list:
     highest_n = -1
     for a in range(-1000, 1001):
