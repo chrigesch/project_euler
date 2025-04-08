@@ -184,6 +184,26 @@ def problem_0012(n: int) -> int:
     return tn
 
 
+def problem_0014(n: int) -> int:
+    max_chain = 0
+    starting_number = 0
+
+    for i in range(3, n):
+        counter = 1
+        res = i
+        while res != 1:
+            if res % 2 == 0:
+                res /= 2
+            else:
+                res = 3 * res + 1
+            counter += 1
+
+        if counter > max_chain:
+            max_chain = counter
+            starting_number = i
+    return starting_number
+
+
 def problem_0027() -> list:
     highest_n = -1
     for a in range(-1000, 1001):
