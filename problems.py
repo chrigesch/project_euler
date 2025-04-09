@@ -204,6 +204,23 @@ def problem_0014(n: int) -> int:
     return starting_number
 
 
+def problem_0015(rows: int, cols: int) -> int:
+    n_rows = rows + 1
+    n_cols = cols + 1
+
+    g = [[0] * n_cols for _ in range(n_rows)]
+
+    for r in range(n_rows):
+        g[r][0] = 1
+    for c in range(n_cols):
+        g[0][c] = 1
+
+    for c in range(1, n_cols):
+        for r in range(1, n_rows):
+            g[c][r] = g[c - 1][r] + g[c][r - 1]
+    return g[-1][-1]
+
+
 def problem_0027() -> list:
     highest_n = -1
     for a in range(-1000, 1001):
