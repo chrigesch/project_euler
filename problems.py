@@ -230,6 +230,25 @@ def problem_0017(n: int) -> int:
     return len(res_all)
 
 
+def problem_0018() -> int:
+    tri = [
+        [int(i) for i in line.split()] for line in open("./downloads/0018_matrix.txt")
+    ]
+
+    dp = [[0] * len(e) for e in tri]
+    dp[0][0] = tri[0][0]
+
+    for line in range(1, len(tri)):
+        dp[line][0] = tri[line][0] + dp[line - 1][0]
+        dp[line][-1] = tri[line][-1] + dp[line - 1][-1]
+
+    for line in range(2, len(tri)):
+        for e in range(line):
+            dp[line][e] = tri[line][e] + max(dp[line - 1][e - 1], dp[line - 1][e])
+
+    return max(dp[-1])
+
+
 def problem_0027() -> list:
     highest_n = -1
     for a in range(-1000, 1001):
