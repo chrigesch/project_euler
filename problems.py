@@ -221,6 +221,15 @@ def problem_0015(rows: int, cols: int) -> int:
     return g[-1][-1]
 
 
+def problem_0017(n: int) -> int:
+    res_all = ""
+    for n in range(1, n + 1):
+        temp_res = convert_number_to_letter(n)
+        res_all += temp_res
+
+    return len(res_all)
+
+
 def problem_0027() -> list:
     highest_n = -1
     for a in range(-1000, 1001):
@@ -257,6 +266,74 @@ def problem_0081(grid):
 ####################
 # Helper functions #
 ####################
+def convert_number_to_letter(n: int) -> str:
+    number_dict = {
+        1: "one",
+        2: "two",
+        3: "three",
+        4: "four",
+        5: "five",
+        6: "six",
+        7: "seven",
+        8: "eight",
+        9: "nine",
+        10: "ten",
+        11: "eleven",
+        12: "twelve",
+        13: "thirteen",
+        14: "fourteen",
+        15: "fifteen",
+        16: "sixteen",
+        17: "seventeen",
+        18: "eighteen",
+        19: "nineteen",
+    }
+
+    dec_dict = {
+        2: "twenty",
+        3: "thirty",
+        4: "forty",
+        5: "fifty",
+        6: "sixty",
+        7: "seventy",
+        8: "eighty",
+        9: "ninety",
+    }
+
+    n_str = str(n)
+
+    if len(n_str) == 1:
+        n_str = "000" + n_str
+    elif len(n_str) == 2:
+        n_str = "00" + n_str
+    elif len(n_str) == 3:
+        n_str = "0" + n_str
+    elif len(n_str) > 4:
+        raise ValueError("max is a four-digit number")
+
+    res = ""
+    if int(n_str[0]) > 0:
+        res += number_dict[int(n_str[0])]
+        res += "thousand"
+
+    if int(n_str[1]) > 0:
+        res += number_dict[int(n_str[1])]
+        res += "hundred"
+
+    if (int(n_str[1]) > 0) & (int(n_str[2:4]) > 0):
+        res += "and"
+
+    if int(n_str[2:4]) > 0:
+        if int(n_str[2:4]) <= 19:
+            res += number_dict[int(n_str[2:4])]
+        else:
+            res += dec_dict[int(n_str[2])]
+            if int(n_str[3]) > 0:
+                res += number_dict[int(n_str[3])]
+
+    return res
+
+
 def generate_primes(n: int) -> list:
     sieve = [True] * (n + 1)
     sieve[0:2] = [False, False]
