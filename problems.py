@@ -307,6 +307,32 @@ def problem_0019() -> int:
     return counter
 
 
+def problem_0020(n: int) -> int:
+    prod = 1
+
+    for i in range(1, n + 1):
+        prod *= i
+
+    sum_dig = 0
+    for i in str(prod):
+        sum_dig += int(i)
+    return sum_dig
+
+
+def problem_0021(n: int) -> int:
+    amicable_numbers = []
+    i = 1
+    while i < n:
+        if i not in amicable_numbers:
+            temp_sum_1 = sum(get_all_factors(i))
+            if i != temp_sum_1:
+                temp_sum_2 = sum(get_all_factors(temp_sum_1))
+                if i == temp_sum_2:
+                    amicable_numbers.extend([i, temp_sum_1])
+        i += 1
+    return sum(amicable_numbers)
+
+
 def problem_0027() -> list:
     highest_n = -1
     for a in range(-1000, 1001):
@@ -419,6 +445,19 @@ def generate_primes(n: int) -> list:
             for j in range(i * i, n + 1, i):
                 sieve[j] = False
     return [p for p, isprime in enumerate(sieve) if isprime]
+
+
+def get_all_factors(n: int) -> list:
+    all_factor = [1]
+    factor = 2
+    temp = n
+    while factor < temp:
+        if n % factor == 0:
+            temp = n / factor
+            all_factor.extend([factor, int(temp)])
+        factor += 1
+    all_factor.sort()
+    return all_factor
 
 
 def is_palindrome(value: int) -> bool:
