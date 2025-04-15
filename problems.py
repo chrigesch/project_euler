@@ -333,6 +333,22 @@ def problem_0021(n: int) -> int:
     return sum(amicable_numbers)
 
 
+def problem_0022() -> int:
+    alphabet_dict = {chr(i): i - 64 for i in range(65, 91)}
+
+    names = open("./downloads/0022_names.txt").read().split(sep=",")
+    names = [i.replace('"', "") for i in names]
+    names.sort()
+
+    cumsum_all = 0
+    for i in range(len(names)):
+        cumsum = 0
+        for letter in names[i]:
+            cumsum += alphabet_dict[letter]
+        cumsum_all += cumsum * (i + 1)
+    return cumsum_all
+
+
 def problem_0027() -> list:
     highest_n = -1
     for a in range(-1000, 1001):
