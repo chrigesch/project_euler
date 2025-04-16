@@ -371,6 +371,16 @@ def problem_0023(limit: int) -> int:
     return sum(int_filtered)
 
 
+def problem_0025(limit: int) -> int:
+    fib_seq = [1, 1]
+
+    while len(str(fib_seq[-1])) < limit:
+        next_value = fib_seq[-1] + fib_seq[-2]
+        fib_seq.append(next_value)
+
+    return len(fib_seq)
+
+
 def problem_0027() -> list:
     highest_n = -1
     for a in range(-1000, 1001):
