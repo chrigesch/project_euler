@@ -1,3 +1,4 @@
+from itertools import permutations
 import pandas as pd
 
 # https://projecteuler.net/archives
@@ -522,3 +523,19 @@ def is_prime(n) -> bool:
             return False
         i += 6
     return True
+
+
+def permute(items: list, with_itertools: bool) -> list:
+    if with_itertools:
+        result = list(permutations(items, len(items)))
+    else:
+        if len(items) == 1:
+            return [items]
+
+        result = []
+        for i in range(len(items)):
+            fixed = items[i]
+            rest = items[:i] + items[i + 1 :]  # noqa E203
+            for p in permute(rest, with_itertools=False):
+                result.append([fixed] + p)
+    return result
