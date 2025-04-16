@@ -360,6 +360,8 @@ def problem_0023() -> int:
             temp_sum = abundant_numbers[i] + abundant_numbers[j]
             if temp_sum <= 28123:
                 posible_sums_abundant_numbers.append(temp_sum)
+            else:
+                break
     posible_sums_abundant_numbers = list(set(posible_sums_abundant_numbers))
 
     int_filtered = [
