@@ -347,6 +347,27 @@ def problem_0022() -> int:
     return cumsum_all
 
 
+def problem_0023() -> int:
+    abundant_numbers = []
+    for i in range(12, 28123 + 1):
+        sum_divisors = sum(get_all_factors(i))
+        if sum_divisors > i:
+            abundant_numbers.append(i)
+
+    posible_sums_abundant_numbers = []
+    for i in range(len(abundant_numbers)):
+        for j in range(len(abundant_numbers)):
+            temp_sum = abundant_numbers[i] + abundant_numbers[j]
+            if temp_sum <= 28123:
+                posible_sums_abundant_numbers.append(temp_sum)
+    posible_sums_abundant_numbers = list(set(posible_sums_abundant_numbers))
+
+    int_filtered = [
+        e for e in range(1, 28123 + 1) if e not in posible_sums_abundant_numbers
+    ]
+    return sum(int_filtered)
+
+
 def problem_0027() -> list:
     highest_n = -1
     for a in range(-1000, 1001):
@@ -470,6 +491,7 @@ def get_all_factors(n: int) -> list:
             temp = n / factor
             all_factor.extend([factor, int(temp)])
         factor += 1
+    all_factor = list(set(all_factor))
     all_factor.sort()
     return all_factor
 
