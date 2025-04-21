@@ -395,6 +395,17 @@ def problem_0027() -> list:
     return results
 
 
+def problem_0028(n: int) -> int:
+    res = 1
+    for i in range(3, n + 1, 2):
+        t_r = i**2
+        t_l = t_r - 1 * (i - 1)
+        b_l = t_r - 2 * (i - 1)
+        b_r = t_r - 3 * (i - 1)
+        res += t_r + t_l + b_l + b_r
+    return res
+
+
 def problem_0081(grid):
     n = len(grid)
     dp = [[0] * n for _ in range(n)]
