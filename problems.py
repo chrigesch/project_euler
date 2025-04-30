@@ -406,6 +406,15 @@ def problem_0028(n: int) -> int:
     return res
 
 
+def problem_0029(a_max: int, b_max: int) -> int:
+    results = []
+    for a in range(2, a_max + 1):
+        for b in range(2, b_max + 1):
+            results.append(a**b)
+
+    return len(set(results))
+
+
 def problem_0081(grid):
     n = len(grid)
     dp = [[0] * n for _ in range(n)]
