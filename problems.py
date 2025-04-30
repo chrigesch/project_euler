@@ -415,6 +415,15 @@ def problem_0029(a_max: int, b_max: int) -> int:
     return len(set(results))
 
 
+def problem_0030() -> int:
+    sum_of_fifths = []
+    for i in range(2, 1000000):
+        fifths = [int(d) ** 5 for d in str(i)]
+        if sum(fifths) == i:
+            sum_of_fifths.append(i)
+    return sum(sum_of_fifths)
+
+
 def problem_0081(grid):
     n = len(grid)
     dp = [[0] * n for _ in range(n)]
